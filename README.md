@@ -18,3 +18,8 @@ ANNEXE:
 LIENS:
 
     CÔTES: http://www.clg-monnet-briis.ac-versailles.fr/IMG/pdf/rangement_des_documents_du_cdi.pdf
+
+CLASS SESSION
+CLASS LIBRARY
+CLASS SHELVES
+CLASS BOOK
