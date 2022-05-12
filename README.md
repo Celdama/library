@@ -23,3 +23,11 @@ CLASS SESSION
 CLASS LIBRARY
 CLASS SHELVES
 CLASS BOOK
+
+# utilisateur arrive a start
+
+# add or search
+
+# if add
+
+# ask books info

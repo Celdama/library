@@ -12,6 +12,6 @@ class Book
   end 
 
   def create_label
-    "#{@genre[0] + @author[0..2]}"
+    "#{@genre[0]}#{@author[0..2]}"
   end 
 end

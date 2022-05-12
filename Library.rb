@@ -1,5 +1,6 @@
 require './Book.rb'
 require './Shelves.rb'
+require 'pry-byebug'
 
 class Library
 
@@ -14,21 +15,19 @@ class Library
   
   def add_book_to_shelves book
     @shelves_list.last.add_book book
-  end 
+  end
 
   def create_book title, author, year, genre
     if @shelves_list.length == 0 || @shelves_list.last.is_full?
       create_shelves
     end 
+    # binding.pry
     new_book = Book.new title, author, year, genre
     add_book_to_shelves new_book
   end 
 
   def show_shelves_list
-    p @shelves_list.length
     @shelves_list[0].show_content
-    print "-----"
-    @shelves_list[1].show_content
   end
 
   
