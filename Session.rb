@@ -4,6 +4,7 @@ require './modules/Validation.rb'
 
 class Session 
   include Validation
+
   def initialize 
     @library = Library.new
   end
@@ -26,15 +27,6 @@ class Session
     restart = true
     word = nil
     while restart
-      # puts "you want to add a book"
-      # puts "Title ?"
-      # title = gets.chomp
-      # puts "author?"
-      # author = gets.chomp
-      # puts "year?"
-      # year = gets.chomp
-      # puts "genre?"
-      # genre = gets.chomp
       book_info = {
         title: "",
         author: "",
@@ -56,8 +48,6 @@ class Session
 
       @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:genre]
       puts "#{word} was added in your Library"
-
-      
       puts "do you want to add another book"
       puts "yes | no"
       restart = gets.chomp == "yes"
