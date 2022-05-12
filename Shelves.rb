@@ -8,7 +8,7 @@ class Shelves
   def add_book book
     book
     @books << book
-    @remaining -= 1
+    @remaining_spot -= 1
   end
 
   def show_content

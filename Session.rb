@@ -1,5 +1,5 @@
 # SESSION
-require './classes/Library.rb'
+require './Library.rb'
 require './modules/Validation.rb'
 
 class Session 
@@ -35,16 +35,27 @@ class Session
       # year = gets.chomp
       # puts "genre?"
       # genre = gets.chomp
-      loop do
-        print "Input word: "
-        word = gets.chomp
-        validation_message = validation_input_for_word word
-        break if validation_message.nil?
-        puts validation_message
-      end
+      book_info = {
+        title: "",
+        author: "",
+        year: "",
+        genre: ""
+      }
 
-      # @library.create_book title, author, year, genre
-      puts "#{title} was added in your Library"
+      book_info.each do |key, value|
+        loop do
+          puts "input #{key}"
+          word = gets.chomp
+          validation_message = validation_input_for_word word
+          puts validation_message ? validation_message : "#{key} = #{word}"
+          book_info[key] = word
+          break if validation_message.nil?
+        end
+      end
+      puts book_info
+
+      @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:genre]
+      puts "#{word} was added in your Library"
 
       
       puts "do you want to add another book"
