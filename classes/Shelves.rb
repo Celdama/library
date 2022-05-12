@@ -1,9 +1,8 @@
-# accueillir un nombre limité de books 
 class Shelves
-  def initialize remaining = 20
+  def initialize remaining_spot = 20
     @containing_section = []
     @books = []
-    @remaining = remaining
+    @remaining_spot = remaining_spot
   end 
 
   def add_book book
@@ -17,7 +16,7 @@ class Shelves
   end
 
   def is_full?
-    @remaining == 0
+    @remaining_spot == 0
   end 
 
 end

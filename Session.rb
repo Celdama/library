@@ -1,7 +1,9 @@
 # SESSION
-require './Library.rb'
+require './classes/Library.rb'
+require './modules/Validation.rb'
 
 class Session 
+  include Validation
   def initialize 
     @library = Library.new
   end
@@ -13,27 +15,6 @@ class Session
     puts "choose a num"
     answer = gets.chomp
     answer == "0" ? add : search
-
-
-    
-    # puts "title ?"
-    # title = gets.chomp
-    # puts "author?"
-    # author = gets.chomp
-    # puts "year?"
-    # year = gets.chomp
-    # puts "genre?"
-    # genre = gets.chomp
-
-
-    # library = Library.new
-    # # library.create_book title, author, year, genre
-    # (0..4).each do |i|
-    #   library.create_book "foo#{i}", "foo", 234, "hoor#{i}"
-    # end 
-
-    # library.show_shelves_list
-    
   end 
 
   def search
@@ -43,18 +24,26 @@ class Session
   def add
     puts @library
     restart = true
+    word = nil
     while restart
-      puts "you want to add a book"
-      puts "Title ?"
-      title = gets.chomp
-      puts "author?"
-      author = gets.chomp
-      puts "year?"
-      year = gets.chomp
-      puts "genre?"
-      genre = gets.chomp
+      # puts "you want to add a book"
+      # puts "Title ?"
+      # title = gets.chomp
+      # puts "author?"
+      # author = gets.chomp
+      # puts "year?"
+      # year = gets.chomp
+      # puts "genre?"
+      # genre = gets.chomp
+      loop do
+        print "Input word: "
+        word = gets.chomp
+        validation_message = validation_input_for_word word
+        break if validation_message.nil?
+        puts validation_message
+      end
 
-      @library.create_book title, author, year, genre
+      # @library.create_book title, author, year, genre
       puts "#{title} was added in your Library"
 
       
