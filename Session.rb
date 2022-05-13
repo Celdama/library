@@ -12,10 +12,14 @@ class Session
 
   def start
     puts "tell me what do you want"
-    puts "0: add new book | 1: search a book"
+    puts "0: add new book | 1: search a book | 2: exit"
     puts "choose a num"
     answer = gets.chomp
-    answer == "0" ? add : search
+    case answer
+    when "0" then add
+    when "1" then search
+    else puts "bye"
+    end
   end 
 
   def search
