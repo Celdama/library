@@ -1,9 +1,10 @@
-# SESSION
 require './Library.rb'
 require './modules/Validation.rb'
+require './modules/IrbMessage.rb'
 
 class Session 
   include Validation
+  include IrbMessage
 
   def initialize 
     @library = Library.new
@@ -11,9 +12,7 @@ class Session
 
 
   def start
-    puts "tell me what do you want"
-    puts "0: add new book | 1: search a book | 2: exit"
-    puts "choose a num"
+    print "tell me what do you want\n0: add new book | 1: search a book | 2: exit\nEnter your choice:"
     answer = gets.chomp
     case answer
     when "0" then add
@@ -27,7 +26,6 @@ class Session
   end 
 
   def add
-    puts @library
     restart = true
     word = nil
     while restart
@@ -51,9 +49,11 @@ class Session
       puts book_info
 
       @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:genre]
-      puts "#{word} was added in your Library"
-      puts "do you want to add another book"
-      puts "yes | no"
+
+      book_added book_info[:title], book_info[:author], book_info[:year]
+
+
+      puts "#{word} was added in your Library\ndo you want to add another book\nyes | no"
       restart = gets.chomp == "yes"
     end
 
