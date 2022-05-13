@@ -1,9 +1,9 @@
 module IrbMessage
-  def book_added title, author, year
+  def book_added book
     puts "        ----------------------
-      |         #{title}          |
-      |         by #{author}        |
-      |        in #{year}        |
+      |         #{book[:title]}          |
+      |         by #{book[:author]}       |
+      |        in #{book[:year]}        |
         ----------------------
       "
   end 

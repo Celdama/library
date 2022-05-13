@@ -49,10 +49,8 @@ class Session
       puts book_info
 
       @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:genre]
-
-      book_added book_info[:title], book_info[:author], book_info[:year]
-
-
+      book_added book_info
+      
       puts "#{word} was added in your Library\ndo you want to add another book\nyes | no"
       restart = gets.chomp == "yes"
     end
