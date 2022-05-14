@@ -8,8 +8,8 @@ class Library
     @shelves_list = []
   end 
 
-  def create_shelve genre
-    shelves = Shelves.new genre
+  def create_shelve category
+    shelves = Shelves.new category
     @shelves_list << shelves
   end
   
@@ -19,14 +19,14 @@ class Library
     # @shelves_list.last.add_book book
   end
 
-  def create_book title, author, year, genre
+  def create_book title, author, year, category
     # ERROR ICI CAR JAI SUPPRIMER LES LIMITES DE SHELVES 
-    # IL FAUDRA ICI CHECK SI LE SHELVE EXISTE EN FONCTION DU GENRE 
+    # IL FAUDRA ICI CHECK SI LE SHELVE EXISTE EN FONCTION DU category 
     # if @shelves_list.length == 0 || 
     #   create_shelves
     # end 
     # binding.pry
-    new_book = Book.new title, author, year, genre
+    new_book = Book.new title, author, year, category
     add_book_to_shelves new_book
   end 
 
