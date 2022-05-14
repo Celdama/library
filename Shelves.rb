@@ -1,14 +1,14 @@
 class Shelves
   attr_reader :shelve_name
-  def initialize genre
-    @containing_genre = []
+  def initialize category
+    @containing_category = []
     @books = []
-    @shelve_name = genre
+    @shelve_name = category
   end 
 
   def add_book book
     @books << book
-    @containing_genre << book.genre
+    @containing_category << book.category
   end
 
   def show_content
