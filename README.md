@@ -24,10 +24,12 @@ CLASS LIBRARY
 CLASS SHELVES
 CLASS BOOK
 
-# utilisateur arrive a start
+<!--
+# si l'utilisateur souhaite ajouter un livre
+# je dois lui montrer la liste des etages déjà présente
+    # si son etagere de son genre pas presente => go creer shelve
+# si etagers déjà presente => lui permettre dans les genres de ne choisir qu'un genre
+dejà présent, et lui laisser la possibilité d'exit
 
-# add or search
 
-# if add
-
-# ask books info
+ -->

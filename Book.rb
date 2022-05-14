@@ -1,4 +1,6 @@
 class Book
+  attr_reader :genre
+
   def initialize title, author, year, genre
     @title = title
     @author = author
