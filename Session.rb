@@ -4,6 +4,7 @@ require './modules/IrbMessage.rb'
 require 'tty-font'
 require 'tty-prompt'
 require 'pastel'
+require 'tty-spinner'
 
 class Session 
   include Validation
@@ -14,6 +15,7 @@ class Session
     @prompt = TTY::Prompt.new(active_color: :green)
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
+    @spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
   end
 
 
@@ -60,15 +62,20 @@ class Session
     puts @pastel.blue.bold("Create a new shelve ...")
     puts ""
 
-    puts "you want to create juste one shelve"
-    puts "give me a category for your shelve"
-    category = gets.chomp
-    @library.create_shelve category
-    p @library
-    puts "you have successfully create #{category} shelve"
-    puts "do you want create a new shel or not"
-    puts "0 - non | 1 - oui"
-    gets.chomp == "0" ? add : create_shelve
+    category = @prompt.ask("Category name for your shelve")
+    # category = gets.chomp
+
+    puts "wait"
+    @spinner.auto_spin
+    sleep(2)
+    @spinner.stop("Done!") # Stop animation
+    puts 'here'
+    # @library.create_shelve category
+    # p @library
+    # puts "you have successfully create #{category} shelve"
+    # puts "do you want create a new shel or not"
+    # puts "0 - non | 1 - oui"
+    # gets.chomp == "0" ? add : create_shelve
   end
 
   def search
