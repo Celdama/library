@@ -2,6 +2,7 @@ require './Library.rb'
 require './modules/Validation.rb'
 require './modules/IrbMessage.rb'
 require 'tty-font'
+require 'tty-prompt'
 require 'pastel'
 
 class Session 
@@ -10,6 +11,7 @@ class Session
 
   def initialize 
     @library = Library.new
+    @prompt = TTY::Prompt.new(active_color: :green)
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
   end
@@ -17,56 +19,53 @@ class Session
 
   def start
     @library.empty_shelves_list? ? first_connect : create
-    # print "tell me what do you want\n0: add new book | 1: search a book | 2: exit\nEnter your choice:"
-    # answer = gets.chomp
-    # case answer
-    # when "0" then add
-    # when "1" then search
-    # else puts "bye"
-    # end
   end 
 
   def first_connect
-    puts @pastel.red(@font.write("LIBRARY"))
-    puts "it's your first connect, your library is empty."
-    puts "you need to create at least one shielve for be able to add a book"
-    puts "so let's go"
-    print "you want to enter a list of genre and create one shelves by book enter 0\nyou want to create juste one shelve enter 1\n0: add multiple shelves  | 1: add just one shelve | 2: exit\nEnter your choice:"
-    answer = gets.chomp
-    case answer
-    when "0" then create_shelves
-    when "1" then create_shelve
-    end 
+    puts @pastel.red.bold(@font.write("LIBRARY"))
+    puts "it's your first connect, your library is empty.\ncreate at least one shielve before add a book"
+    puts ""
+    choices = [
+      {name: "add mutiples shelves", value: 0},
+      {name: "add one shelve", value: 1},
+    ]
+    answer = @prompt.select("select your choice", choices)
+
+    answer == 0 ? create_shelves : create_shelve
   end 
 
   def create_shelves
-    puts "we'll going to create one shelve by one genre key word"
+    puts "we'll going to create one shelve by one category key word"
     puts "lets get your genre list"
-    genre_list = []
+    category_list = []
     list_done = false
     while !list_done
       puts "lets add new shelves"
-      puts "whats your genre"
-      genre = gets.chomp
-      genre_list << genre
-      puts "genre was successfully added"
-      puts "do you want create another genre"
+      puts "whats your category"
+      category = gets.chomp
+      category_list << category
+      puts "category was successfully added"
+      puts "do you want create another category"
       puts "0 - non | 1 - oui"
       list_done = gets.chomp == "0"
     end
-    genre_list.each {|genre| @library.create_shelve genre}
-    puts "you have successfully create #{genre_list.length}"
+    category_list.each {|category| @library.create_shelve category}
+    puts "you have successfully create #{category_list.length}"
     # TODO: Redirect to create / add action
   end
 
   def create_shelve
     # TODO : CHECK IF SHELVE NAME IS ALREADY CREATE
+    puts ""
+    puts @pastel.blue.bold("Create a new shelve ...")
+    puts ""
+
     puts "you want to create juste one shelve"
-    puts "give me a genre to your shelve"
-    genre = gets.chomp
-    @library.create_shelve genre
+    puts "give me a category for your shelve"
+    category = gets.chomp
+    @library.create_shelve category
     p @library
-    puts "you have successfully create #{genre} shelve"
+    puts "you have successfully create #{category} shelve"
     puts "do you want create a new shel or not"
     puts "0 - non | 1 - oui"
     gets.chomp == "0" ? add : create_shelve
@@ -97,7 +96,7 @@ class Session
           title: "",
           author: "",
           year: "",
-          genre: ""
+          category: ""
         }
 
         # TODO : JE SAIS PAS TROP OU. GUIDER L4UTILISATEUR, QUAND ON LUI MONTRE LA LISTE DES SHELS
@@ -120,7 +119,7 @@ class Session
         end
         puts book_info
 
-        @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:genre]
+        @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:category]
         book_added book_info
         
         puts "#{word} was added in your Library\ndo you want to add another book\nyes | no"
