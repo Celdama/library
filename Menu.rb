@@ -1,12 +1,12 @@
-require "tty-prompt"
-require "tty-font"
-require "tty-table"
+# require "tty-prompt"
+# require "tty-font"
+# require "tty-table"
 
 
 
 # https://github.com/piotrmurach/tty-prompt
 
-prompt = TTY::Prompt.new(active_color: :cyan)
+# prompt = TTY::Prompt.new(active_color: :cyan)
 # prompt = TTY::Prompt.new
 
 
@@ -127,9 +127,9 @@ prompt = TTY::Prompt.new(active_color: :cyan)
 
 # http://github.com/piotrmurach/tty-table
 
-table = TTY::Table.new(["header1","header2eeeee"], [["a1", "a2"], ["b1", "b2"]])
+# table = TTY::Table.new(["header1","header2eeeee"], [["a1", "a2"], ["b1", "b2"]])
 # renderer = TTY::Table::Renderer::Unicode.new(table)
 
-puts table.render(:unicode)
+# puts table.render(:unicode)
 
 # table.each { |row| p row }  

@@ -1,6 +1,8 @@
 require './Library.rb'
 require './modules/Validation.rb'
 require './modules/IrbMessage.rb'
+require 'tty-font'
+require 'pastel'
 
 class Session 
   include Validation
@@ -8,6 +10,8 @@ class Session
 
   def initialize 
     @library = Library.new
+    @font = TTY::Font.new(:standard)
+    @pastel = Pastel.new
   end
 
 
@@ -23,6 +27,7 @@ class Session
   end 
 
   def first_connect
+    puts @pastel.red(@font.write("LIBRARY"))
     puts "it's your first connect, your library is empty."
     puts "you need to create at least one shielve for be able to add a book"
     puts "so let's go"

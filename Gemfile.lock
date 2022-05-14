@@ -31,6 +31,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  pastel
   tty-font
   tty-prompt
   tty-table
