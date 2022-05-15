@@ -15,7 +15,8 @@ class Session
     @prompt = TTY::Prompt.new(active_color: :green)
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
-    @spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
+    @spinner = TTY::Spinner.new("[:spinner] Creating your new shelve ...", format: :pulse_2)
+    # @spinner = TTY::Spinner.new("[:spinner] Creating your shelve")
   end
 
 
@@ -58,24 +59,22 @@ class Session
 
   def create_shelve
     # TODO : CHECK IF SHELVE NAME IS ALREADY CREATE
-    puts ""
-    puts @pastel.blue.bold("Create a new shelve ...")
-    puts ""
-
+    puts @pastel.blue.bold("\nCreate a new shelve ...\n")
+    
     category = @prompt.ask("Category name for your shelve")
-    # category = gets.chomp
+    if @library.get_shelves_list_name.include?(category)
+      puts @pastel.red.bold("\nShelve already exist, you can't add two time\n")
+    else
+      @spinner.auto_spin
+      sleep(3)
+      @spinner.stop("Done") 
+      @library.create_shelve category
+      puts ""
+      puts @pastel.blue.bold("you have successfully added #{category} shelve in your library")
+      puts ""
 
-    puts "wait"
-    @spinner.auto_spin
-    sleep(2)
-    @spinner.stop("Done!") # Stop animation
-    puts 'here'
-    # @library.create_shelve category
-    # p @library
-    # puts "you have successfully create #{category} shelve"
-    # puts "do you want create a new shel or not"
-    # puts "0 - non | 1 - oui"
-    # gets.chomp == "0" ? add : create_shelve
+    end
+    @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add
   end
 
   def search

@@ -30,8 +30,10 @@ class Library
     add_book_to_shelves new_book
   end 
 
-  def show_shelves_list
-    @shelves_list.each {|shelve| p shelve.shelve_name}
+  def get_shelves_list_name
+    list = []
+    @shelves_list.each {|shelve| list << shelve.shelve_name}
+    list
     # show_shelves_content
   end
 
