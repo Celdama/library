@@ -31,10 +31,7 @@ class Library
   end 
 
   def get_shelves_list_name
-    list = []
-    @shelves_list.each {|shelve| list << shelve.shelve_name}
-    list
-    # show_shelves_content
+    @shelves_list.each {|shelve| p shelve.shelve_name}
   end
 
   def show_shelves_content
@@ -46,9 +43,4 @@ class Library
   def empty_shelves_list?
     @shelves_list.empty?
   end 
-
-  
-  def hello
-    "hello world"
-  end
 end

@@ -56,13 +56,12 @@ class Session
 
   def add
     p "============="
-    @library.show_shelves_list
+    @library.get_shelves_list_name
     p "============="
     p "check in this list, if the shelve for your book's genre is already here press 1 or press 0 cause you need to add a shelve for this genre before"
     answer = gets.chomp
 
     if answer == "1"
-      # case answer
       restart = true
       word = nil
       while restart
@@ -73,7 +72,7 @@ class Session
           category: ""
         }
 
-        # TODO : JE SAIS PAS TROP OU. GUIDER L4UTILISATEUR, QUAND ON LUI MONTRE LA LISTE DES SHELS
+        # TODO : JE SAIS PAS TROP OU => GUIDER L4UTILISATEUR, QUAND ON LUI MONTRE LA LISTE DES SHELS
         # LE FAIRE CHOISIR DANS QUEL SHELVE IL SOUHAITE AJOUTER SON LIVRE, ET NE PLUS LUI LAISSER
         # LA POSSIBILIT2 DAJOUTER UN GENRE
 
@@ -103,7 +102,7 @@ class Session
       create_shelve
     end 
 
-    @library.show_shelves_list
+    @library.get_shelves_list_name
     start
   end 
 end 
