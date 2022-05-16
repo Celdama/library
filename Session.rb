@@ -16,7 +16,6 @@ class Session
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
     @spinner = TTY::Spinner.new("[:spinner] Creating your new shelve ...", format: :pulse_2)
-    # @spinner = TTY::Spinner.new("[:spinner] Creating your shelve")
   end
 
 
@@ -26,53 +25,22 @@ class Session
 
   def first_connect
     puts @pastel.red.bold(@font.write("LIBRARY"))
-    puts "it's your first connect, your library is empty.\ncreate at least one shielve before add a book"
-    puts ""
-    choices = [
-      {name: "add mutiples shelves", value: 0},
-      {name: "add one shelve", value: 1},
-    ]
-    answer = @prompt.select("select your choice", choices)
-
-    answer == 0 ? create_shelves : create_shelve
+    puts "Welcome, it's your first connect, your library is empty.\nyou need to create at least one shielve before add a book"
+    create_shelve
   end 
 
-  def create_shelves
-    puts "we'll going to create one shelve by one category key word"
-    puts "lets get your genre list"
-    category_list = []
-    list_done = false
-    while !list_done
-      puts "lets add new shelves"
-      puts "whats your category"
-      category = gets.chomp
-      category_list << category
-      puts "category was successfully added"
-      puts "do you want create another category"
-      puts "0 - non | 1 - oui"
-      list_done = gets.chomp == "0"
-    end
-    category_list.each {|category| @library.create_shelve category}
-    puts "you have successfully create #{category_list.length}"
-    # TODO: Redirect to create / add action
-  end
-
   def create_shelve
-    # TODO : CHECK IF SHELVE NAME IS ALREADY CREATE
     puts @pastel.blue.bold("\nCreate a new shelve ...\n")
-    
-    category = @prompt.ask("Category name for your shelve")
+    category = @prompt.ask("Category name for your shelve :")
+
     if @library.get_shelves_list_name.include?(category)
-      puts @pastel.red.bold("\nShelve already exist, you can't add two time\n")
+      puts @pastel.red.bold("\nShelve #{category} already exist, you can't add two time\n")
     else
       @spinner.auto_spin
       sleep(3)
       @spinner.stop("Done") 
       @library.create_shelve category
-      puts ""
-      puts @pastel.blue.bold("you have successfully added #{category} shelve in your library")
-      puts ""
-
+      puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
     end
     @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add
   end
