@@ -31,7 +31,10 @@ class Library
   end 
 
   def get_shelves_list_name
-    @shelves_list.each {|shelve| p shelve.shelve_name}
+    list = []
+    @shelves_list.each {|shelve| list << shelve.shelve_name}
+    list << "no shelve"
+    list
   end
 
   def show_shelves_content

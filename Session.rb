@@ -5,6 +5,8 @@ require 'tty-font'
 require 'tty-prompt'
 require 'pastel'
 require 'tty-spinner'
+require 'tty-box'
+
 
 class Session 
   include Validation
@@ -20,7 +22,7 @@ class Session
 
 
   def start
-    @library.empty_shelves_list? ? first_connect : create
+    @library.empty_shelves_list? ? first_connect : user_choice_if_library_is_not_empty
   end 
 
   def first_connect
@@ -42,26 +44,37 @@ class Session
       @library.create_shelve category
       puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
     end
-    @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add
+    @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add_new_book
   end
 
   def search
     if @library.shelves_list?
       puts "you need to create your first shelves, please add a book"
-      add
+      add_new_book
     else 
       @library.show_shelves_list
     end
+  end
+  
+  def user_choice_if_library_is_not_empty
+    # ASK HERE IF USER WANT TO LOOK OR ADD
+    answer = @prompt.select('Do you want to :') do |menu|
+          menu.choice name: "add a new book in your library", value: 1
+          menu.choice name: "check your library", value: 2
+    end
+    answer == 1 ? add_new_book : check_library 
   end 
 
-  def add
-    p "============="
-    @library.get_shelves_list_name
-    p "============="
-    p "check in this list, if the shelve for your book's genre is already here press 1 or press 0 cause you need to add a shelve for this genre before"
-    answer = gets.chomp
+  def check_library
+    p "you want to search a book"
+  end 
 
-    if answer == "1"
+  def add_new_book
+    puts @pastel.blue.bold("\nAdd a new book ...\n")
+
+    current_shelve = @prompt.select("You need to select your shelve before add a book.\nIf the correct shelve doesn't exist select no shelve option", @library.get_shelves_list_name)
+
+    if current_shelve != "no shelve"
       restart = true
       word = nil
       while restart
@@ -69,14 +82,9 @@ class Session
           title: "",
           author: "",
           year: "",
-          category: ""
         }
 
-        # TODO : JE SAIS PAS TROP OU => GUIDER L4UTILISATEUR, QUAND ON LUI MONTRE LA LISTE DES SHELS
-        # LE FAIRE CHOISIR DANS QUEL SHELVE IL SOUHAITE AJOUTER SON LIVRE, ET NE PLUS LUI LAISSER
-        # LA POSSIBILIT2 DAJOUTER UN GENRE
-
-        puts "let's add a new book"
+        puts "let's add a new book in your #{current_shelve} shelve"
 
         book_info.each do |key, value|
           loop do
@@ -92,18 +100,30 @@ class Session
         end
         puts book_info
 
-        @library.create_book book_info[:title], book_info[:author], book_info[:year], book_info[:category]
+        @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
         book_added book_info
+
+        @pastel.green.bold("#{book_info[:title]} by #{book_info[:author]} was added in your Libray.")
         
-        puts "#{word} was added in your Library\ndo you want to add another book\nyes | no"
-        restart = gets.chomp == "yes"
+        answer = @prompt.select('Do you want to :') do |menu|
+          menu.choice name: "add another book in #{current_shelve} shelve", value: 1
+          menu.choice name: "select another shelve", value: 2
+          menu.choice name: "other", value: 3
+        end
+
+        if answer == 1
+          restart = true
+        elsif answer == 2
+          restart = false
+          add_new_book
+        else
+          restart = false
+          start
+        end
       end 
     else 
       create_shelve
-    end 
-
-    @library.get_shelves_list_name
-    start
+    end
   end 
 end 
 
