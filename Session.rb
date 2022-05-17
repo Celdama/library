@@ -17,7 +17,7 @@ class Session
     @prompt = TTY::Prompt.new(active_color: :green)
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
-    @spinner = TTY::Spinner.new("[:spinner] Creating new shelve ...", format: :pulse_2)
+    @spinner = TTY::Spinner.new(":spinner Creating new shelve ...", format: :bouncing_ball)
   end
 
 
