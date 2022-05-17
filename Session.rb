@@ -67,17 +67,27 @@ class Session
   
 
   def check_library
-    p "you want to take a look at your library"
-    # @library.show_shelves_list
-    p @library.get_shelves_list_name
+    @pastel.blue.bold("\nyou want to take a look at your library\n")
+    # p @library.get_shelves_list_name
+    check_answer = @prompt.select('Do you want to check :') do |menu|
+      menu.choice name: "all your book", value: 1
+      menu.choice name: "your shelves", value: 2
+    end 
 
+    check_answer == 1 ? check_book : check_shelves
+  end 
+
+  def check_book
+  end 
+
+  def check_shelves
   end 
 
   def add_new_book
     puts @pastel.blue.bold("\nAdd a new book ...\n")
 
     current_shelve = @prompt.select("You need to select your shelve before add a book.\n
-        If the correct shelve doesn't exist select no shelve option", @library.get_shelves_list_name << "no shelve")
+        If the correct shelve doesn't exist select no shelve option to create appropriate shelve", @library.get_shelves_list_name << "no shelve")
 
     if current_shelve != "no shelve"
       restart = true
