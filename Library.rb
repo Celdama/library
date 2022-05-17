@@ -29,8 +29,6 @@ class Library
     list
   end
 
-
-
   def show_shelves_content
     @shelves_list.show_content
   end 

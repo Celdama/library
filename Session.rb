@@ -68,7 +68,6 @@ class Session
 
   def check_library
     @pastel.blue.bold("\nyou want to take a look at your library\n")
-    # p @library.get_shelves_list_name
     check_answer = @prompt.select('Do you want to check :') do |menu|
       menu.choice name: "your books", value: 1
       menu.choice name: "your shelves", value: 2
@@ -79,7 +78,6 @@ class Session
 
   def check_books
     @pastel.blue.bold("\nLet's make a check on your books list")
-    # @library.shelves_list.each {|shelve| p shelve.books}
     check_answer = @prompt.select('Do you want to :') do |menu|
       menu.choice name: "check the list of all your books", value: 1
       menu.choice name: "check if one book is already in your library", value: 2
@@ -104,11 +102,34 @@ class Session
     puts @pastel.blue.bold("\nLet's check if your book is already in your library!\n")
     book_title = @prompt.ask("What is the title of your book?")
     @library.shelves_list.each {|shelve| shelve.is_in_shelve book_title}
+    # TODO : LET USER MAKE CHOICE, 1. GO USER_CHOICE_IF_LIBRARY_NOT_EMPTY OR CHECK_BOOK
+    check_books
   end 
 
   def filter_book
-    p "filter book"
+    # BY CATEGORY & BY AUTHOR
+    puts @pastel.blue.bold("\nLet's filter your books\n")
+    
+    filter = @prompt.select('Do you want to filter your books by:') do |menu|
+          menu.choice name: "category", value: 1
+          menu.choice name: "author", value: 2
+    end
+
+    filter == 1 ? filter_book_by_category : filter_book_by_author
   end
+
+  def filter_book_by_category
+    filter_category = @prompt.select("Choose your category", @library.get_shelves_list_name)
+
+    filtered_category = @library.shelves_list.find {|shelve| shelve.shelve_name == filter_category}
+    # puts filter_catego
+    filtered_category.show_content
+
+  end 
+
+  def filter_book_by_author
+  end 
+
 
   def check_shelves
 
