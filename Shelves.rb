@@ -14,4 +14,9 @@ class Shelves
   def show_content
     @books.each {|book| p book.get_info}
   end
+
+  def is_in_shelve book_title
+    result = @books.find {|book| book.title == book_title}
+    puts result&.get_info || 'no matches'
+  end 
 end

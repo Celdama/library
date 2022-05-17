@@ -14,17 +14,11 @@ class Library
   end
   
   def add_book_to_shelves book
-    current_shelve = shelves_list.select {|shelve| shelve.shelve_name == book.category}
-    current_shelve[0].add_book book
+    current_shelve = shelves_list.find {|shelve| shelve.shelve_name == book.category}
+    current_shelve.add_book book
   end
 
   def create_book title, author, year, category
-    # ERROR ICI CAR JAI SUPPRIMER LES LIMITES DE SHELVES 
-    # IL FAUDRA ICI CHECK SI LE SHELVE EXISTE EN FONCTION DU category 
-    # if @shelves_list.length == 0 || 
-    #   create_shelves
-    # end 
-    # binding.pry
     new_book = Book.new title, author, year, category
     add_book_to_shelves new_book
   end 
@@ -38,9 +32,7 @@ class Library
 
 
   def show_shelves_content
-    puts "try with first shelves, type 0"
-    index = gets.chomp.to_i
-    @shelves_list[index].show_content
+    @shelves_list.show_content
   end 
 
   def empty_shelves_list?

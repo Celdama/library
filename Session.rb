@@ -39,7 +39,7 @@ class Session
       puts @pastel.red.bold("\nShelve #{category} already exist, you can't add two time\n")
     else
       @spinner.auto_spin
-      sleep(3)
+      sleep(1)
       @spinner.stop("Done") 
       @library.create_shelve category
       puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
@@ -70,7 +70,7 @@ class Session
     @pastel.blue.bold("\nyou want to take a look at your library\n")
     # p @library.get_shelves_list_name
     check_answer = @prompt.select('Do you want to check :') do |menu|
-      menu.choice name: "all your book", value: 1
+      menu.choice name: "your books", value: 1
       menu.choice name: "your shelves", value: 2
     end 
 
@@ -78,10 +78,40 @@ class Session
   end 
 
   def check_books
-    @library.shelves_list.each {|shelve| p shelve.books}
+    @pastel.blue.bold("\nLet's make a check on your books list")
+    # @library.shelves_list.each {|shelve| p shelve.books}
+    check_answer = @prompt.select('Do you want to :') do |menu|
+      menu.choice name: "check the list of all your books", value: 1
+      menu.choice name: "check if one book is already in your library", value: 2
+      menu.choice name: "filter your list of books", value: 3
+    end 
+
+    if check_answer == 1
+      check_all_books
+    elsif check_answer == 2
+      book_already_in_library
+    else
+      filter_book
+    end 
   end 
 
+  def check_all_books 
+    @library.shelves_list.each {|shelve| p shelve.books}
+    check_books
+  end 
+
+  def book_already_in_library
+    puts @pastel.blue.bold("\nLet's check if your book is already in your library!\n")
+    book_title = @prompt.ask("What is the title of your book?")
+    @library.shelves_list.each {|shelve| shelve.is_in_shelve book_title}
+  end 
+
+  def filter_book
+    p "filter book"
+  end
+
   def check_shelves
+
   end 
 
   def add_new_book
