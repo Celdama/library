@@ -47,15 +47,6 @@ class Session
     @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add_new_book
   end
 
-  def search
-    if @library.shelves_list?
-      puts "you need to create your first shelves, please add a book"
-      add_new_book
-    else 
-      @library.show_shelves_list
-    end
-  end
-  
   def user_choice_if_library_is_not_empty
     # ASK HERE IF USER WANT TO LOOK OR ADD
     answer = @prompt.select('Do you want to :') do |menu|
@@ -65,14 +56,28 @@ class Session
     answer == 1 ? add_new_book : check_library 
   end 
 
+  def search
+    if @library.shelves_list?
+      puts "you need to create your first shelves, please add a book"
+      add_new_book
+    else 
+      @library.show_shelves_list
+    end
+  end
+  
+
   def check_library
-    p "you want to search a book"
+    p "you want to take a look at your library"
+    # @library.show_shelves_list
+    p @library.get_shelves_list_name
+
   end 
 
   def add_new_book
     puts @pastel.blue.bold("\nAdd a new book ...\n")
 
-    current_shelve = @prompt.select("You need to select your shelve before add a book.\nIf the correct shelve doesn't exist select no shelve option", @library.get_shelves_list_name)
+    current_shelve = @prompt.select("You need to select your shelve before add a book.\n
+        If the correct shelve doesn't exist select no shelve option", @library.get_shelves_list_name << "no shelve")
 
     if current_shelve != "no shelve"
       restart = true

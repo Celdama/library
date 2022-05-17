@@ -33,9 +33,10 @@ class Library
   def get_shelves_list_name
     list = []
     @shelves_list.each {|shelve| list << shelve.shelve_name}
-    list << "no shelve"
     list
   end
+
+
 
   def show_shelves_content
     puts "try with first shelves, type 0"
