@@ -74,10 +74,11 @@ class Session
       menu.choice name: "your shelves", value: 2
     end 
 
-    check_answer == 1 ? check_book : check_shelves
+    check_answer == 1 ? check_books : check_shelves
   end 
 
-  def check_book
+  def check_books
+    @library.shelves_list.each {|shelve| p shelve.books}
   end 
 
   def check_shelves
@@ -101,8 +102,10 @@ class Session
           key(:author).ask("Author ?", required: true)
           key(:year).ask("Year ?", required: true, convert: :int)
         end 
+
+        # book_info[:category] = current_shelve
         
-        puts book_info
+        # puts book_info
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
 

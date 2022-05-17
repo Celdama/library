@@ -14,9 +14,8 @@ class Library
   end
   
   def add_book_to_shelves book
-    # TODO : FIND THE CORRECT SHELVES WITH GENRE
-    puts book
-    # @shelves_list.last.add_book book
+    current_shelve = shelves_list.select {|shelve| shelve.shelve_name == book.category}
+    current_shelve[0].add_book book
   end
 
   def create_book title, author, year, category

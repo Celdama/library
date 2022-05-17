@@ -1,19 +1,19 @@
 class Book
-  attr_reader :genre
+  attr_reader :category
 
-  def initialize title, author, year, genre
+  def initialize title, author, year, category
     @title = title
     @author = author
     @year = year
-    @genre = genre
+    @category = category
     @label = create_label
   end
 
   def get_info 
-    "#{@title} by #{@author} in #{@year} - #{@genre} my label is #{@label}"
+    "#{@title} by #{@author} in #{@year} - #{@category} my label is #{@label}"
   end 
 
   def create_label
-    "#{@genre[0]}#{@author[0..2]}"
+    "#{@category[0]}#{@author[0..2]}"
   end 
 end
