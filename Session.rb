@@ -17,7 +17,7 @@ class Session
     @prompt = TTY::Prompt.new(active_color: :green)
     @font = TTY::Font.new(:standard)
     @pastel = Pastel.new
-    @spinner = TTY::Spinner.new("[:spinner] Creating your new shelve ...", format: :pulse_2)
+    @spinner = TTY::Spinner.new("[:spinner] Creating new shelve ...", format: :pulse_2)
   end
 
 
@@ -78,29 +78,20 @@ class Session
       restart = true
       word = nil
       while restart
-        book_info = {
-          title: "",
-          author: "",
-          year: "",
-        }
 
-        puts "let's add a new book in your #{current_shelve} shelve"
+        puts @pastel.blue.bold("\nlet's add a new book in your #{current_shelve} shelve\n")
 
-        book_info.each do |key, value|
-          loop do
-            puts "input #{key}"
-            word = gets.chomp
-            validation_message = validation_input_for_word word
-            puts validation_message ? validation_message : "#{key} = #{word}"
-            book_info[key] = word
-            if validation_message.nil?
-              break
-            end 
-          end 
-        end
+        book_info = @prompt.collect do
+          key(:title).ask("Title ?", required: true)
+          key(:author).ask("Author ?", required: true)
+          key(:year).ask("Year ?", required: true, convert: :int)
+        end 
+        
         puts book_info
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
+
+        # Delete after fin another way to display book
         book_added book_info
 
         @pastel.green.bold("#{book_info[:title]} by #{book_info[:author]} was added in your Libray.")
