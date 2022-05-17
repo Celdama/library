@@ -1,5 +1,5 @@
 class Book
-  attr_reader :category, :title
+  attr_reader :category, :title, :author
 
   def initialize title, author, year, category
     @title = title

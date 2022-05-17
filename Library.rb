@@ -24,9 +24,15 @@ class Library
   end 
 
   def get_shelves_list_name
-    list = []
-    @shelves_list.each {|shelve| list << shelve.shelve_name}
-    list
+    list_name = []
+    @shelves_list.each {|shelve| list_name << shelve.shelve_name}
+    list_name
+  end
+
+  def get_author_in_shelve
+    list_author = []
+    @shelves_list.each {|shelve| list_author << shelve.containing_author}
+    list_author
   end
 
   def show_shelves_content

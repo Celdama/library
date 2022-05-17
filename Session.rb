@@ -20,7 +20,6 @@ class Session
     @spinner = TTY::Spinner.new(":spinner Creating new shelve ...", format: :bouncing_ball)
   end
 
-
   def start
     @library.empty_shelves_list? ? first_connect : user_choice_if_library_is_not_empty
   end 
@@ -107,7 +106,6 @@ class Session
   end 
 
   def filter_book
-    # BY CATEGORY & BY AUTHOR
     puts @pastel.blue.bold("\nLet's filter your books\n")
     
     filter = @prompt.select('Do you want to filter your books by:') do |menu|
@@ -122,12 +120,19 @@ class Session
     filter_category = @prompt.select("Choose your category", @library.get_shelves_list_name)
 
     filtered_category = @library.shelves_list.find {|shelve| shelve.shelve_name == filter_category}
-    # puts filter_catego
     filtered_category.show_content
-
+    check_books
   end 
 
   def filter_book_by_author
+    # TODO : JE RECUPERE BIEN LA LISTE DE MES AUTHOR; RESTE PLUS QU'A LAISSER
+    # L'UTILISATEUR CHOISIR PARMI CETTE LISTE ET FILTRER LES BOOKS
+    # EN FONCTION DU CHOIX DE L'UTILISATEUR.
+    puts @library.get_author_in_shelve
+    # filter_author = @prompt.select("Choose your author")
+    # @library.shelves_list.each do |shelve|
+    #   p shelve.get_book_by_author filter_author
+    # end 
   end 
 
 
@@ -153,10 +158,6 @@ class Session
           key(:author).ask("Author ?", required: true)
           key(:year).ask("Year ?", required: true, convert: :int)
         end 
-
-        # book_info[:category] = current_shelve
-        
-        # puts book_info
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
 
@@ -188,4 +189,5 @@ class Session
 end 
 
 log = Session.new
+# log.library = Library.new
 log.start
