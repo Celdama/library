@@ -41,5 +41,5 @@ class Library
 
   def empty_shelves_list?
     @shelves_list.empty?
-  end 
+  end
 end

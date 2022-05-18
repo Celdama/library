@@ -128,7 +128,14 @@ class Session
     # TODO : JE RECUPERE BIEN LA LISTE DE MES AUTHOR; RESTE PLUS QU'A LAISSER
     # L'UTILISATEUR CHOISIR PARMI CETTE LISTE ET FILTRER LES BOOKS
     # EN FONCTION DU CHOIX DE L'UTILISATEUR.
-    puts @library.get_author_in_shelve
+    filtered_author = @prompt.select("Choose your author", @library.get_author_in_shelve)
+    # puts @library.get_author_in_shelve
+    p filtered_author
+
+    @library.shelves_list.each do |shelve|
+      books_by_filtered_author = shelve.get_book_by_author filtered_author
+      p books_by_filtered_author
+    end 
     # filter_author = @prompt.select("Choose your author")
     # @library.shelves_list.each do |shelve|
     #   p shelve.get_book_by_author filter_author

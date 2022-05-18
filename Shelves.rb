@@ -25,6 +25,6 @@ class Shelves
   end
   
   def get_book_by_author author
-    @books.find {|book| book.author == author}
+    @books.select {|book| book.author == author}
   end 
 end
