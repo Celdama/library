@@ -10,9 +10,6 @@ class Shelves
   def add_book book
     @books << book
     @containing_category << book.category
-    # if !@containing_author.include?(book.author)
-    #   @containing_author << book.author
-    # end 
   end
 
   def show_content
