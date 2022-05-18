@@ -31,8 +31,10 @@ class Library
 
   def get_author_in_shelve
     list_author = []
-    @shelves_list.each {|shelve| list_author << shelve.containing_author}
-    list_author
+    @shelves_list.each do |shelve|
+      list_author += shelve.get_author_list_in_shelve
+    end 
+    list_author.uniq
   end
 
   def show_shelves_content

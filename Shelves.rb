@@ -10,9 +10,9 @@ class Shelves
   def add_book book
     @books << book
     @containing_category << book.category
-    if !@containing_author.include?(book.author)
-      @containing_author << book.author
-    end 
+    # if !@containing_author.include?(book.author)
+    #   @containing_author << book.author
+    # end 
   end
 
   def show_content
@@ -26,5 +26,15 @@ class Shelves
   
   def get_book_by_author author
     @books.select {|book| book.author == author}
+  end 
+
+  def get_author_list_in_shelve
+    author_list = []
+    @books.each do |book|
+      if !author_list.include?(book.author)
+        author_list << book.author
+      end 
+    end
+    author_list
   end 
 end
