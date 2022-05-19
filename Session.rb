@@ -35,9 +35,22 @@ class Session
 
     answer = @prompt.select('Do you want to :') do |menu|
           menu.choice name: "add a new book in your library", value: 1
-          menu.choice name: "check your library", value: 2
+          menu.choice name: "create shelve", value: 2
+          menu.choice name: "check your library", value: 3
+          menu.choice name: "exit", value: 4
     end
-    answer == 1 ? add_new_book : check_library 
+
+    case answer
+    when 1
+      add_new_book
+    when 2 
+      create_shelve
+    when 3
+      check_library
+    else 
+      "clear"
+    end
+    
   end 
 
   def create_shelve
