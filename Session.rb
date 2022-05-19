@@ -96,20 +96,24 @@ class Session
     puts "here check shelves"
     @pastel.blue.bold("\nLet's make a check on your shelves list")
     check_answer = @prompt.select('Do you want to :') do |menu|
-      menu.choice name: "check the content on all your shelves", value: 1
-      menu.choice name: "check the content by shelve's name", value: 2
-      menu.choice name: "check the number of shelves in your library", value: 3
+      menu.choice name: "check the content by shelve's name", value: 1
+      menu.choice name: "check the number of shelves in your library", value: 2
     end 
 
-    if check_answer == 1 
-      # Rename en get peut être
-      check_all_shelves
-    elsif 
-      check_shelve_by_name
-    else
-      check_number
-    end
-  end 
+    # rename get ? 
+    check_answer == 1 ? check_shelve_by_name : check_shelves_number
+
+  end
+
+  def check_shelve_by_name
+    shelve_name_choice = @prompt.select("Choose your category", @library.get_shelves_list_name)
+    current_shelve = @library.shelves_list.find {|shelve| shelve.shelve_name == shelve_name_choice}
+    current_shelve.show_content
+  end
+
+  def check_shelves_number
+    
+  end
 
   def check_all_books 
     @library.shelves_list.each {|shelve| p shelve.books}
