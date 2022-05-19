@@ -112,7 +112,7 @@ class Session
   end
 
   def check_shelves_number
-    
+    puts @pastel.blue.bold("\nyou have #{@library.shelves_list.length} shelves in your library !\n")
   end
 
   def check_all_books 
