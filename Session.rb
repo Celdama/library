@@ -30,6 +30,14 @@ class Session
     create_shelve
   end 
 
+  def user_choice_if_library_is_not_empty
+    answer = @prompt.select('Do you want to :') do |menu|
+          menu.choice name: "add a new book in your library", value: 1
+          menu.choice name: "check your library", value: 2
+    end
+    answer == 1 ? add_new_book : check_library 
+  end 
+
   def create_shelve
     puts @pastel.blue.bold("\nCreate a new shelve ...\n")
     category = @prompt.ask("Category name for your shelve :")
@@ -45,15 +53,6 @@ class Session
     end
     @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add_new_book
   end
-
-  def user_choice_if_library_is_not_empty
-    # ASK HERE IF USER WANT TO LOOK OR ADD
-    answer = @prompt.select('Do you want to :') do |menu|
-          menu.choice name: "add a new book in your library", value: 1
-          menu.choice name: "check your library", value: 2
-    end
-    answer == 1 ? add_new_book : check_library 
-  end 
 
   def search
     if @library.shelves_list?
@@ -90,6 +89,26 @@ class Session
     else
       filter_book
     end 
+  end 
+
+  
+  def check_shelves
+    puts "here check shelves"
+    @pastel.blue.bold("\nLet's make a check on your shelves list")
+    check_answer = @prompt.select('Do you want to :') do |menu|
+      menu.choice name: "check the content on all your shelves", value: 1
+      menu.choice name: "check the content by shelve's name", value: 2
+      menu.choice name: "check the number of shelves in your library", value: 3
+    end 
+
+    if check_answer == 1 
+      # Rename en get peut être
+      check_all_shelves
+    elsif 
+      check_shelve_by_name
+    else
+      check_number
+    end
   end 
 
   def check_all_books 
@@ -134,10 +153,6 @@ class Session
 
   end 
 
-
-  def check_shelves
-
-  end 
 
   def add_new_book
     puts @pastel.blue.bold("\nAdd a new book ...\n")
