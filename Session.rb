@@ -190,7 +190,7 @@ class Session
     current_shelve = @prompt.select("You need to select your shelve before add a book.\n
         If the correct shelve doesn't exist select no shelve option to create appropriate shelve", @library.get_shelves_list_name << "no shelve")
 
-    if current_shelve != "no shelve"
+    if current_shelve != "no shelve" 
       restart = true
       word = nil
       while restart
@@ -226,7 +226,7 @@ class Session
           start
         end
       end 
-    else 
+
       create_shelve
     end
   end 
