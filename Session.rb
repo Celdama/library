@@ -31,6 +31,8 @@ class Session
   end 
 
   def user_choice_if_library_is_not_empty
+    puts @pastel.blue.bold("\nyour personal library...\n")
+
     answer = @prompt.select('Do you want to :') do |menu|
           menu.choice name: "add a new book in your library", value: 1
           menu.choice name: "check your library", value: 2
@@ -51,7 +53,7 @@ class Session
       @library.create_shelve category
       puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
     end
-    @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : add_new_book
+    @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : user_choice_if_library_is_not_empty
   end
 
   def search
@@ -69,9 +71,20 @@ class Session
     check_answer = @prompt.select('Do you want to check :') do |menu|
       menu.choice name: "your books", value: 1
       menu.choice name: "your shelves", value: 2
+      menu.choice name: "back", value: 3
+      menu.choice name: "exit", value: 4
     end 
 
-    check_answer == 1 ? check_books : check_shelves
+    case check_answer
+    when 1
+      check_books
+    when 2
+      check_shelves
+    when 3
+      user_choice_if_library_is_not_empty
+    else 
+      "clear"
+    end
   end 
 
   def check_books
