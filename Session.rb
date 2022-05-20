@@ -63,7 +63,7 @@ class Session
       @spinner.auto_spin
       sleep(1)
       @spinner.stop("Done") 
-      @library.create_shelve category
+      @library.create_shelve category.strip
       puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
     end
     @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : user_choice_if_library_is_not_empty
@@ -198,9 +198,9 @@ class Session
         puts @pastel.blue.bold("\nlet's add a new book in your #{current_shelve} shelve\n")
 
         book_info = @prompt.collect do
-          key(:title).ask("Title ?", required: true)
-          key(:author).ask("Author ?", required: true)
-          key(:year).ask("Year ?", required: true, convert: :int)
+          key(:title).ask("Title ?", required: true).strip
+          key(:author).ask("Author ?", required: true).strip
+          key(:year).ask("Year ?", required: true, convert: :int).strip
         end 
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
@@ -233,5 +233,4 @@ class Session
 end 
 
 log = Session.new
-# log.library = Library.new
 log.start
