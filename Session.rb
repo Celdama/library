@@ -26,27 +26,27 @@ class Session
 
   def first_connect
     puts @pastel.red.bold(@font.write("LIBRARY"))
-    puts "Welcome, it's your first connect, your library is empty.\nyou need to create at least one shielve before add a book"
+    puts "Welcome, it's your first connect, your online library is empty.\nyou need to create at least one shielve before add a book"
     create_shelve
   end 
 
   def user_choice_if_library_is_not_empty
     puts @pastel.blue.bold("\nyour personal library...\n")
 
-    answer = @prompt.select('Do you want to :') do |menu|
+    user_choice = @prompt.select('Do you want to :') do |menu|
           menu.choice name: "add a new book in your library", value: 1
           menu.choice name: "create shelve", value: 2
           menu.choice name: "check your library", value: 3
           menu.choice name: "exit", value: 4
     end
 
-    case answer
+    case user_choice
     when 1
       add_new_book
     when 2 
       create_shelve
     when 3
-      check_library
+      consult_library_actions
     else 
       "clear"
     end
@@ -55,16 +55,16 @@ class Session
 
   def create_shelve
     puts @pastel.blue.bold("\nCreate a new shelve ...\n")
-    category = @prompt.ask("Category name for your shelve :")
+    shelve_category = @prompt.ask("Category name for your shelve :")
 
-    if @library.get_shelves_list_name.include?(category)
-      puts @pastel.red.bold("\nShelve #{category} already exist, you can't add two time\n")
+    if @library.get_shelves_list_name.include?(shelve_category)
+      puts @pastel.red.bold("\nShelve #{shelve_category} already exist, you can't add two time\n")
     else
       @spinner.auto_spin
-      sleep(1)
+      sleep(2)
       @spinner.stop("Done") 
-      @library.create_shelve category.strip
-      puts @pastel.blue.bold("\nyou have successfully added #{category} shelve in your library\n")
+      @library.create_shelve shelve_category.strip
+      puts @pastel.blue.bold("\nyou have successfully added #{shelve_category} shelve in your library\n")
     end
     @prompt.yes?("Do you want to create another shelve ?") == true ? create_shelve : user_choice_if_library_is_not_empty
   end
@@ -79,20 +79,20 @@ class Session
   end
   
 
-  def check_library
+  def consult_library_actions
     @pastel.blue.bold("\nyou want to take a look at your library\n")
-    check_answer = @prompt.select('Do you want to check :') do |menu|
+    library_action = @prompt.select('Do you want to check :') do |menu|
       menu.choice name: "your books", value: 1
       menu.choice name: "your shelves", value: 2
       menu.choice name: "back", value: 3
       menu.choice name: "exit", value: 4
     end 
 
-    case check_answer
+    case library_action
     when 1
-      check_books
+      consult_books
     when 2
-      check_shelves
+      consult_shelves
     when 3
       user_choice_if_library_is_not_empty
     else 
@@ -100,61 +100,61 @@ class Session
     end
   end 
 
-  def check_books
+  def consult_books
     @pastel.blue.bold("\nLet's make a check on your books list")
-    check_answer = @prompt.select('Do you want to :') do |menu|
+    books_action = @prompt.select('Do you want to :') do |menu|
       menu.choice name: "check the list of all your books", value: 1
       menu.choice name: "check if one book is already in your library", value: 2
       menu.choice name: "filter your list of books", value: 3
     end 
 
-    if check_answer == 1
-      check_all_books
-    elsif check_answer == 2
-      book_already_in_library
+    if books_action == 1
+      get_all_books
+    elsif books_action == 2
+      is_book_already_in_library
     else
-      filter_book
+      use_filter_book
     end 
   end 
 
   
-  def check_shelves
+  def consult_shelves
     puts "here check shelves"
     @pastel.blue.bold("\nLet's make a check on your shelves list")
-    check_answer = @prompt.select('Do you want to :') do |menu|
+    shelves_action = @prompt.select('Do you want to :') do |menu|
       menu.choice name: "check the content by shelve's name", value: 1
       menu.choice name: "check the number of shelves in your library", value: 2
     end 
 
     # rename get ? 
-    check_answer == 1 ? check_shelve_by_name : check_shelves_number
+    shelves_action == 1 ? get_shelve_content_by_name : get_shelves_number
 
   end
 
-  def check_shelve_by_name
+  def get_shelve_content_by_name
     shelve_name_choice = @prompt.select("Choose your category", @library.get_shelves_list_name)
     current_shelve = @library.shelves_list.find {|shelve| shelve.shelve_name == shelve_name_choice}
     current_shelve.show_content
   end
 
-  def check_shelves_number
+  def get_shelves_number
     puts @pastel.blue.bold("\nyou have #{@library.shelves_list.length} shelves in your library !\n")
   end
 
-  def check_all_books 
+  def get_all_books 
     @library.shelves_list.each {|shelve| p shelve.books}
-    check_books
+    consult_books
   end 
 
-  def book_already_in_library
+  def is_book_already_in_library
     puts @pastel.blue.bold("\nLet's check if your book is already in your library!\n")
     book_title = @prompt.ask("What is the title of your book?")
     @library.shelves_list.each {|shelve| shelve.is_in_shelve book_title}
     # TODO : LET USER MAKE CHOICE, 1. GO USER_CHOICE_IF_LIBRARY_NOT_EMPTY OR CHECK_BOOK
-    check_books
+    consult_books
   end 
 
-  def filter_book
+  def use_filter_book
     puts @pastel.blue.bold("\nLet's filter your books\n")
     
     filter = @prompt.select('Do you want to filter your books by:') do |menu|
@@ -170,7 +170,7 @@ class Session
 
     filtered_category = @library.shelves_list.find {|shelve| shelve.shelve_name == filter_category}
     filtered_category.show_content
-    check_books
+    consult_books
   end 
 
   def filter_book_by_author
@@ -205,7 +205,7 @@ class Session
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
 
-        # Delete after fin another way to display book
+        # Delete after find another way to display book
         book_added book_info
 
         @pastel.green.bold("#{book_info[:title]} by #{book_info[:author]} was added in your Libray.")
