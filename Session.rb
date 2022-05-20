@@ -106,15 +106,22 @@ class Session
       menu.choice name: "check the list of all your books", value: 1
       menu.choice name: "check if one book is already in your library", value: 2
       menu.choice name: "filter your list of books", value: 3
+      menu.choice name: "back", value: 4
+      menu.choice name: "exit", value: 5
     end 
 
-    if books_action == 1
+    case books_action
+    when 1
       get_all_books
-    elsif books_action == 2
+    when 2
       is_book_already_in_library
-    else
+    when 3
       use_filter_book
-    end 
+    when 4
+      consult_library_actions
+    else
+      "clear"
+    end
   end 
 
   
@@ -179,6 +186,7 @@ class Session
     @library.shelves_list.each do |shelve|
       books_by_filtered_author = shelve.get_book_by_author filtered_author
       p books_by_filtered_author
+      consult_books
     end 
 
   end 
@@ -200,7 +208,7 @@ class Session
         book_info = @prompt.collect do
           key(:title).ask("Title ?", required: true).strip
           key(:author).ask("Author ?", required: true).strip
-          key(:year).ask("Year ?", required: true, convert: :int).strip
+          key(:year).ask("Year ?", required: true, convert: :int)
         end 
 
         @library.create_book book_info[:title], book_info[:author], book_info[:year], current_shelve
