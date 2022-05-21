@@ -124,9 +124,7 @@ class Session
       menu.choice name: "check the number of shelves in your library", value: 2
     end 
 
-    # rename get ? 
     shelves_action == 1 ? get_shelve_content_by_name : get_shelves_number
-
   end
 
   def get_shelve_content_by_name
@@ -159,8 +157,8 @@ class Session
     puts @pastel.blue.bold("\nLet's filter your books\n")
     
     filter = @prompt.select('Do you want to filter your books by:') do |menu|
-          menu.choice name: "category", value: 1
-          menu.choice name: "author", value: 2
+      menu.choice name: "category", value: 1
+      menu.choice name: "author", value: 2
     end
 
     filter == 1 ? filter_book_by_category : filter_book_by_author
