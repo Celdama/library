@@ -142,6 +142,9 @@ class Session
     shelve_name_choice = @prompt.select("Choose your category", @library.get_shelves_list_name)
     current_shelve = @library.shelves_list.find {|shelve| shelve.shelve_name == shelve_name_choice}
     current_shelve.show_content
+    # little issu here : after showing content, create shelve action go here; idk why
+    # add this puts for now. Need to debug.
+    puts "clear"
   end
 
   def get_shelves_number
