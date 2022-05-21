@@ -111,16 +111,11 @@ class Session
     end 
 
     case books_action
-    when 1
-      get_all_books
-    when 2
-      is_book_already_in_library
-    when 3
-      use_filter_book
-    when 4
-      consult_library_actions
-    else
-      "clear"
+    when 1 then get_all_books
+    when 2 then is_book_already_in_library
+    when 3 then use_filter_book
+    when 4 then consult_library_actions
+    else puts "clear"
     end
   end 
 
