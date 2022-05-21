@@ -41,14 +41,10 @@ class Session
     end
 
     case user_choice
-    when 1
-      add_new_book
-    when 2 
-      create_shelve
-    when 3
-      consult_library_actions
-    else 
-      "clear"
+    when 1 then add_new_book
+    when 2 then create_shelve
+    when 3 then consult_library_actions
+    else puts "clear"
     end
     
   end 
